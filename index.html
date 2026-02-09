@@ -23,7 +23,7 @@
       color: white;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 2rem 1rem;
+      padding: 2rem 1rem 5rem; /* espacio para la barra sticky */
     }
 
     @keyframes fondo {
@@ -127,8 +127,11 @@
       background: linear-gradient(135deg, #1dd1a1, #10ac84);
     }
 
+    /* ✅ BARRA STICKY (SOLUCIÓN 1) */
     .barra-bienvenida {
-      margin-top: 3rem;
+      position: sticky;
+      bottom: 1rem;
+      margin: 3rem auto 0;
       padding: 1rem;
       font-size: 1.1rem;
       font-weight: bold;
@@ -138,7 +141,7 @@
       background-size: 600% 600%;
       animation: colores 8s ease infinite;
       border-radius: 12px;
-      box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
     }
 
     @keyframes colores {
@@ -239,7 +242,7 @@
 
 </body>
 </html>
-      
+
     
  
       
@@ -247,3 +250,4 @@
   
      
  
+
