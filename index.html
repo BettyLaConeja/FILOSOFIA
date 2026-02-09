@@ -18,12 +18,8 @@
       background: linear-gradient(135deg, #1e1e2f, #3a0f5c, #0f4c5c);
       background-size: 400% 400%;
       animation: fondo 12s ease infinite;
-      display: flex;
-      justify-content: center;
       color: white;
       overflow-x: hidden;
-      overflow-y: auto;
-      padding: 2rem 1rem 6rem; /* espacio para footer sticky */
     }
 
     @keyframes fondo {
@@ -38,10 +34,12 @@
       z-index: 0;
     }
 
-    .contenedor {
+    .page {
+      position: relative;
       z-index: 1;
       max-width: 900px;
-      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1rem 7rem;
       text-align: center;
     }
 
@@ -100,8 +98,8 @@
       justify-content: center;
       backface-visibility: hidden;
       box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      text-align: center;
       padding: 1rem;
+      text-align: center;
     }
 
     .card-front {
@@ -127,16 +125,12 @@
       background: linear-gradient(135deg, #1dd1a1, #10ac84);
     }
 
-    /* Footer sticky */
     .barra-bienvenida {
-      position: sticky;
-      bottom: 1rem;
-      margin: 3rem auto 0;
+      margin-top: 3rem;
       padding: 1rem;
       font-size: 1.1rem;
       font-weight: bold;
       letter-spacing: 2px;
-      text-align: center;
       background: linear-gradient(270deg, #ff6b6b, #feca57, #1dd1a1, #54a0ff, #c56cf0);
       background-size: 600% 600%;
       animation: colores 8s ease infinite;
@@ -149,6 +143,18 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
+    /* 🔥 FIX FIREFOX */
+    @media (max-width: 768px) {
+      .barra-bienvenida {
+        position: fixed;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 2rem);
+        z-index: 10;
+      }
+    }
   </style>
 </head>
 
@@ -156,12 +162,11 @@
 
 <canvas id="filosofia"></canvas>
 
-<div class="contenedor">
+<div class="page">
   <h1>Filosofía</h1>
   <p>Elegí tu curso y entrá al espacio correspondiente</p>
 
   <div class="botones">
-
     <div class="card" onclick="toggleCard(this); irA('https://sites.google.com/view/filosofante/inicio')">
       <div class="card-inner">
         <div class="card-front cuarto">4º Año</div>
@@ -182,7 +187,6 @@
         <div class="card-back sexto">Ética, política y filosofía contemporánea</div>
       </div>
     </div>
-
   </div>
 
   <div class="barra-bienvenida">
@@ -241,4 +245,4 @@
 </script>
 
 </body>
-</html
+</html>
