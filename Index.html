@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filosofía – Portal de Cursos</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e1e2f, #3a0f5c, #0f4c5c);
+      background-size: 400% 400%;
+      animation: fondo 12s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      overflow: hidden;
+      padding-bottom: 0; /* más espacio para el pie de página */
+    }
+
+    @keyframes fondo {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .contenedor {
+      text-align: center;
+      z-index: 2;
+      margin-bottom: 140px; /* separa cards del pie */
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 15px rgba(255,255,255,0.6);
+    }
+
+    p {
+      margin-bottom: 3rem;
+      font-size: 1.2rem;
+      opacity: 0.85;
+    }
+
+    .botones {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      width: 260px;
+      height: 180px;
+      perspective: 1000px;
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .card:hover .card-inner {
+      transform: rotateY(180deg) scale(1.05);
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backface-visibility: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .card-front {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      font-size: 1.1rem;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .cuarto {
+      background: linear-gradient(135deg, #ff6b6b, #c73866);
+    }
+
+    .quinto {
+      background: linear-gradient(135deg, #feca57, #ff9f43);
+      color: #1e1e2f;
+    }
+
+    .sexto {
+      background: linear-gradient(135deg, #1dd1a1, #10ac84);
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .barra-bienvenida {
+      position: relative; /* ahora es un pie de página real */
+      width: 330%;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: white;
+      background: linear-gradient(270deg, #ff6b6b, #feca57, #1dd1a1, #54a0ff, #c56cf0);
+      background-size: 600% 600%;
+      animation: colores 8s ease infinite;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+      margin-top: 120px;
+    }
+
+    @keyframes colores {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="filosofia"></canvas>
+
+  <div class="contenedor">
+    <h1>Filosofía</h1>
+    <p>Elegí tu curso y entrá al espacio correspondiente</p>
+
+    <div class="botones">
+      <div class="card" onclick="irA('https://sites.google.com/view/filosofante/inicio')">
+        <div class="card-inner">
+          <div class="card-front cuarto">4º Año</div>
+          <div class="card-back cuarto">Introducción al pensamiento filosófico</div>
+  </div>
+
+  <div class="barra-bienvenida">Bienvenidos al portal de Cursos</div>
+      </div>
+
+      <div class="card" onclick="irA('https://sites.google.com/view/filoquinto/inicio?authuser=0')">
+        <div class="card-inner">
+          <div class="card-front quinto">5º Año</div>
+          <div class="card-back quinto">Conocimiento, ciencia y verdad</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="irA('https://sites.google.com/view/filosexto/inicio?authuser=0')">
+        <div class="card-inner">
+          <div class="card-front sexto">6º Año</div>
+          <div class="card-back sexto">Ética, política y filosofía contemporánea</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function irA(url) {
+      window.location.href = url;
+    }
+
+    // Fondo animado de partículas
+    const canvas = document.getElementById('filosofia');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const particulas = Array.from({ length: 80 }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 2 + 1,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6
+    }));
+
+    function animar() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+
+      particulas.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animar);
+    }
+
+    animar();
+  </script>
+</body>
+</html>
