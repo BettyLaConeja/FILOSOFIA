@@ -1,17 +1,14 @@
-<!DOCTYPE html>
+
+   <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portal educativo de filosofía. No recopila datos personales ni realiza descargas." />
   <title>Filosofía – Portal de Cursos</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
 
     body {
       min-height: 100vh;
@@ -28,11 +25,7 @@
       100% { background-position: 0% 50%; }
     }
 
-    canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-    }
+    canvas { position: fixed; inset: 0; z-index: 0; }
 
     .page {
       position: relative;
@@ -43,165 +36,95 @@
       text-align: center;
     }
 
-    h1 {
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin-bottom: 1rem;
-      text-shadow: 0 0 15px rgba(255,255,255,0.6);
-    }
+    h1 { font-size: clamp(2rem, 6vw, 3rem); margin-bottom: 1rem; }
+    p { margin-bottom: 2.5rem; font-size: 1rem; opacity: 0.85; }
 
-    p {
-      margin-bottom: 2.5rem;
-      font-size: 1rem;
-      opacity: 0.85;
-    }
+    .botones { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }
 
-    .botones {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: center;
-    }
-
-    .card {
-      width: 90%;
-      max-width: 260px;
-      height: 180px;
-      perspective: 1000px;
-    }
+    .card { width: 90%; max-width: 260px; height: 180px; perspective: 1000px; }
 
     .card-inner {
-      width: 100%;
-      height: 100%;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-      cursor: pointer;
+      width: 100%; height: 100%; transition: transform 0.6s;
+      transform-style: preserve-3d; cursor: pointer;
     }
 
-    .card.activa .card-inner {
-      transform: rotateY(180deg);
+    .card.activa .card-inner { transform: rotateY(180deg); }
+
+    .card-front, .card-back {
+      position: absolute; width: 100%; height: 100%;
+      border-radius: 20px; display: flex; align-items: center; justify-content: center;
+      backface-visibility: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      padding: 1rem; text-align: center;
     }
 
-    @media (hover: hover) {
-      .card:hover .card-inner {
-        transform: rotateY(180deg) scale(1.05);
-      }
-    }
+    .card-front { font-size: 1.6rem; font-weight: bold; }
+    .card-back { transform: rotateY(180deg); font-size: 1.1rem; }
 
-    .card-front,
-    .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backface-visibility: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .card-front {
-      font-size: 1.6rem;
-      font-weight: bold;
-    }
-
-    .card-back {
-      transform: rotateY(180deg);
-      font-size: 1.1rem;
-    }
-
-    .cuarto {
-      background: linear-gradient(135deg, #ff6b6b, #c73866);
-    }
-
-    .quinto {
-      background: linear-gradient(135deg, #feca57, #ff9f43);
-      color: #1e1e2f;
-    }
-
-    .sexto {
-      background: linear-gradient(135deg, #1dd1a1, #10ac84);
-    }
+    .cuarto { background: linear-gradient(135deg, #ff6b6b, #c73866); }
+    .quinto { background: linear-gradient(135deg, #feca57, #ff9f43); color: #1e1e2f; }
+    .sexto { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
 
     .barra-bienvenida {
-      margin-top: 3rem;
-      padding: 1rem;
-      font-size: 1.1rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      background: linear-gradient(270deg, #ff6b6b, #feca57, #1dd1a1, #54a0ff, #c56cf0);
-      background-size: 600% 600%;
-      animation: colores 8s ease infinite;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+      margin-top: 3rem; padding: 1rem; font-size: 1rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
     }
 
-    @keyframes colores {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* 🔥 FIX FIREFOX */
-    @media (max-width: 768px) {
-      .barra-bienvenida {
-        position: fixed;
-        bottom: 1rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: calc(100% - 2rem);
-        z-index: 10;
-      }
+    footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      opacity: 0.7;
     }
   </style>
 </head>
 
 <body>
-
 <canvas id="filosofia"></canvas>
 
 <div class="page">
   <h1>Filosofía</h1>
-  <p>Elegí tu curso y entrá al espacio correspondiente</p>
+  <p>Elegí tu curso y accedé al contenido educativo</p>
 
   <div class="botones">
-    <div class="card" onclick="toggleCard(this); irA('https://sites.google.com/view/filosofante/inicio')">
+
+    <div class="card" data-url="https://sites.google.com/view/filosofante/inicio">
       <div class="card-inner">
         <div class="card-front cuarto">4º Año</div>
         <div class="card-back cuarto">Introducción al pensamiento filosófico</div>
       </div>
     </div>
 
-    <div class="card" onclick="toggleCard(this); irA('https://sites.google.com/view/filoquinto/inicio?authuser=0')">
+    <div class="card" data-url="https://sites.google.com/view/filoquinto/inicio">
       <div class="card-inner">
         <div class="card-front quinto">5º Año</div>
         <div class="card-back quinto">Conocimiento, ciencia y verdad</div>
       </div>
     </div>
 
-    <div class="card" onclick="toggleCard(this); irA('https://sites.google.com/view/filosexto/inicio?authuser=0')">
+    <div class="card" data-url="https://sites.google.com/view/filosexto/inicio">
       <div class="card-inner">
         <div class="card-front sexto">6º Año</div>
-        <div class="card-back sexto">Ética, política y filosofía contemporánea</div>
+        <div class="card-back sexto">Ética y filosofía contemporánea</div>
       </div>
     </div>
+
   </div>
 
-  <div class="barra-bienvenida">
-    Bienvenidos al portal de Cursos
-  </div>
+  <div class="barra-bienvenida">Portal educativo – No se solicitan datos personales</div>
+
+  <footer>
+    Sitio educativo sin fines comerciales | Proyecto docente
+  </footer>
 </div>
 
 <script>
-  function irA(url) {
-    window.location.href = url;
-  }
-
-  function toggleCard(card) {
-    card.classList.toggle('activa');
-  }
+  // navegación segura sin onclick inline
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      const url = card.getAttribute('data-url');
+      window.location.assign(url);
+    });
+  });
 
   const canvas = document.getElementById('filosofia');
   const ctx = canvas.getContext('2d');
@@ -211,20 +134,21 @@
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
   }
+
   window.addEventListener('resize', resize);
   resize();
 
-  const particulas = Array.from({ length: 80 }, () => ({
+  const particulas = Array.from({ length: 50 }, () => ({
     x: Math.random() * w,
     y: Math.random() * h,
     r: Math.random() * 2 + 1,
-    vx: (Math.random() - 0.5) * 0.6,
-    vy: (Math.random() - 0.5) * 0.6
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4
   }));
 
   function animar() {
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
 
     particulas.forEach(p => {
       p.x += p.vx;
@@ -246,3 +170,16 @@
 
 </body>
 </html>
+    
+     
+      
+      
+
+
+    
+
+   
+
+    
+  
+
